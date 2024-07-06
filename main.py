@@ -13,7 +13,7 @@ TERM_BANK_SIZE = 4000
 @dataclass
 class Args:
     dict_file: TextIOWrapper
-    is_seperate: bool
+    is_separate: bool
     is_number: bool
 
 
@@ -22,14 +22,14 @@ def parse_file() -> Args:
     parser = argparse.ArgumentParser("main.py", description="Converts CC-CEDICT file to a Yomichan-compatible dictionary format")
     parser.add_argument("dictpath",
                         type=argparse.FileType("r", encoding="utf-8"))
-    parser.add_argument("--seperate",
+    parser.add_argument("--separate",
                         action="store_true",
                         help="Use new bullet points as the seperator instead of commas")
     parser.add_argument("--pinyin-numbers",
                         action="store_true",
                         help="Use tone numbers, for example 课 [ke4] instead of 课 [kè]")
     args = parser.parse_args()
-    return Args(args.dictpath, args.seperate, args.pinyin_numbers)
+    return Args(args.dictpath, args.separate, args.pinyin_numbers)
 
 
 def create_index(dict_file):
@@ -39,7 +39,7 @@ def create_index(dict_file):
             break
     index = { "title": "CC-CEDICT",
               "format": 3,
-              "revision": f"cc_cedict_{date}",
+              "revision": f"cc_cedict_{date}2",
               "sequenced": True }
     return index
 
@@ -91,7 +91,7 @@ def termbank_creator(args: Args):
             # The meaning part starts and ends with slashes
             meaning = meaning.removeprefix("/").removesuffix("/")
 
-            if args.is_seperate:
+            if args.is_separate:
                 # Format counter
                 meaning = re.sub(r"\/CL:.+?\/", format_CL, meaning)
                 meaning = meaning.replace("/", "\n")
