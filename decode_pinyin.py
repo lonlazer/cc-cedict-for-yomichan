@@ -19,7 +19,7 @@ def decode_pinyin(s):
     for c in s:
         if c >= 'a' and c <= 'z':
             char += c
-        elif c == ':':
+        elif c == ':' and len(char) > 1:
             assert char[-1] == 'u'
             char = char[:-1] + "\u00fc"
         elif c >= '0' and c <= '5':
