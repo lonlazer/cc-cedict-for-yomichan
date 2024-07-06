@@ -1,12 +1,15 @@
 import argparse
-from dataclasses import dataclass
-from io import TextIOWrapper
 import json
 import re
 import zipfile
+
+from dataclasses import dataclass
+from io import TextIOWrapper
+from pathlib import Path
+
 from decode_pinyin import decode_pinyin
 
-OUTPUT_FOLDER = "CC-CEDICT.zip"
+
 TERM_BANK_SIZE = 4000
 
 
@@ -15,6 +18,7 @@ class Args:
     dict_file: TextIOWrapper
     is_separate: bool
     is_number: bool
+    output_directory: str
 
 
 def parse_file() -> Args:
@@ -28,18 +32,22 @@ def parse_file() -> Args:
     parser.add_argument("--pinyin-numbers",
                         action="store_true",
                         help="Use tone numbers, for example 课 [ke4] instead of 课 [kè]")
+    parser.add_argument("--output-directory",
+                        help="Output directory",
+                        default=".")
     args = parser.parse_args()
-    return Args(args.dictpath, args.separate, args.pinyin_numbers)
+    return Args(args.dictpath, args.separate, args.pinyin_numbers, args.output_directory)
 
-
-def create_index(dict_file):
+def get_date(dict_file):
     for line in dict_file:
         if line.startswith("#! date="):
             date = re.search(r"(\d{4})-(\d{2})-(\d{2})", line)[0]
-            break
+            return date
+
+def create_index(date):
     index = { "title": "CC-CEDICT",
               "format": 3,
-              "revision": f"cc_cedict_{date}2",
+              "revision": f"cc_cedict_{date}",
               "sequenced": True }
     return index
 
@@ -125,9 +133,18 @@ def format_obj(obj):
 
 def main():
     args = parse_file()
+    
+    date = get_date(args.dict_file)
 
-    with zipfile.ZipFile(OUTPUT_FOLDER, "w") as zipf:
-        zipf.writestr("index.json", format_obj(create_index(args.dict_file)))
+    filename = f"CC-CEDICT-{date}"
+    filename += "-bullets" if args.is_separate else ""
+    filename += "-numberedpinyin" if args.is_number else ""
+    filename += ".zip"
+
+    output_file = Path(args.output_directory, filename)
+
+    with zipfile.ZipFile(output_file, "w") as zipf:
+        zipf.writestr("index.json", format_obj(create_index(date)))
         # Skip last comment line in dict_file
         next(args.dict_file)
         for i, term_bank in enumerate(create_termbanks(args)):
