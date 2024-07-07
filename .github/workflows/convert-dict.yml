@@ -35,8 +35,8 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: release/*
-        tag_name: ${{ steps.conversion.outputs.date }}
-        name:  ${{ steps.conversion.outputs.date }}
+        tag_name: ${{ steps.conversion1.outputs.date }}
+        name:  ${{ steps.conversion1.outputs.date }}
         token: ${{ secrets.GITHUB_TOKEN }}
         body: |
           This is an automated release of CC-CEDICT as of ${{ steps.conversion.outputs.date }} in Yomitan format.
