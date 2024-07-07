@@ -150,6 +150,7 @@ def main():
         for i, term_bank in enumerate(create_termbanks(args)):
             zipf.writestr(f"term_bank_{i+1}.json", format_obj(term_bank))
 
+    print(f"::set-output name=date::{date}")
     print("Done")
 
 
