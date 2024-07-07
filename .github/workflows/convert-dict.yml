@@ -23,6 +23,7 @@ jobs:
     - name: Create output directory
       run: mkdir release
     - name: Convert CC-CEDICT into Yomitan format
+      id: conversion1
       run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/
     - name: Convert CC-CEDICT into Yomitan format (Bullets)
       run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --separate
@@ -30,4 +31,9 @@ jobs:
       run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --pinyin-numbers
     - name: Convert CC-CEDICT into Yomitan format (Bullets + Numbered Pinyin)
       run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --separate --pinyin-numbers
+    - name: Create GitHub relase
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "release/*.zip"
+        name: "${{ steps.conversion1.outputs.result }}"
     
