@@ -17,3 +17,17 @@ jobs:
         python-version: '3.10'
     - name: Download latest CC-CEDICT file
       run: wget https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.txt.gz
+    - name: Extract file
+      uses: ihiroky/extract-action@v1
+      with:
+        file_path: cedict_1_0_ts_utf-8_mdbg.txt.gz
+        extract_dir: .
+    - name: Convert CC-CEDICT into Yomitan format
+      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release
+    - name: Convert CC-CEDICT into Yomitan format (Bullets)
+      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release --separate
+    - name: Convert CC-CEDICT into Yomitan format (Numbered Pinyin)
+      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release --pinyin-numbers
+    - name: Convert CC-CEDICT into Yomitan format (Bullets + Numbered Pinyin)
+      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release --separate --pinyin-numbers
+    
