@@ -1,4 +1,4 @@
-name: Monthly Trigger
+name: Convert CC-CEDICT
 
 on:
   workflow_dispatch:
@@ -18,17 +18,26 @@ jobs:
         python-version: '3.10'
     - name: Download latest CC-CEDICT file
       run: wget https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.txt.gz
-    - name: Extract file
-      uses: ihiroky/extract-action@v1
-      with:
-        file_path: cedict_1_0_ts_utf-8_mdbg.txt.gz
-        extract_dir: .
+    - name: Unpack CC-CEDICT file
+      run: gunzip cedict_1_0_ts_utf-8_mdbg.txt.gz
+    - name: Create output directory
+      run: mkdir release
     - name: Convert CC-CEDICT into Yomitan format
-      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release
+      id: conversion1
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/
     - name: Convert CC-CEDICT into Yomitan format (Bullets)
-      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release --separate
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --separate
     - name: Convert CC-CEDICT into Yomitan format (Numbered Pinyin)
-      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release --pinyin-numbers
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --pinyin-numbers
     - name: Convert CC-CEDICT into Yomitan format (Bullets + Numbered Pinyin)
-      run: python main.py edict_1_0_ts_utf-8_mdbg.txt --output-directory /release --separate --pinyin-numbers
-    
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --separate --pinyin-numbers
+    - name: Create and Publish GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release/*
+        tag_name: ${{ steps.conversion1.outputs.date }}
+        name:  ${{ steps.conversion1.outputs.date }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        body: |
+          This is an automated release of CC-CEDICT as of ${{ steps.conversion.outputs.date }} in Yomitan format.
+          See README for explanation of the different file types.

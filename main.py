@@ -1,6 +1,7 @@
 import argparse
 import json
 import re
+import os
 import zipfile
 
 from dataclasses import dataclass
@@ -150,6 +151,9 @@ def main():
         for i, term_bank in enumerate(create_termbanks(args)):
             zipf.writestr(f"term_bank_{i+1}.json", format_obj(term_bank))
 
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        print(f'date={date}', file=fh)
+    
     print("Done")
 
 
