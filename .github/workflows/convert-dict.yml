@@ -40,3 +40,4 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         body: |
           This is an automated release of CC-CEDICT as of ${{ steps.conversion.outputs.date }} in Yomitan format.
+          See README for explanation of the different file types.
