@@ -36,4 +36,6 @@ jobs:
       with:
         artifacts: "release/*.zip"
         name: "${{ steps.conversion1.outputs.result }}"
+        commit: "main"
+        tag: "release"
     
