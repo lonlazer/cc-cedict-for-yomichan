@@ -1,8 +1,12 @@
 # CC-CEDICT dictionary for Yomichan
+> [!NOTE]
+> **Updates in this Fork**:
+> This fork includes small fixes and improvements. The main change is the addition of a GitHub action that automatically converts the latest version of CC-CEDICT on
+> a monthly basis. This ensures that the dictionary is always up-to-date with the latest entries from CC-CEDICT.
 
 A Python script that converts the CC-CEDICT file to a Yomichan-supported dictionary file.
 
-[Yomichan](https://foosoft.net/projects/yomichan/) is a browser extension, mainly used for Japanese, which allows opening dictionaries when mouse is over a word.
+[Yomitan]([https://foosoft.net/projects/yomichan/](https://github.com/themoeway/yomitan)) is a browser extension, mainly used for Japanese, which allows opening dictionaries when mouse is over a word.
 
 Although there already exists a [CC-CEDICT dictionary](https://gist.github.com/shoui520/25460fd2e9fb194d3e5152fa2ce42ca2) from shoui, it is not simplistic enough, for example the searched word and its pinyin can be seen twice. Thus, I created my own version for it.
 
@@ -27,11 +31,11 @@ Download links for
 3. CC-CEDICT dictionary with bullet points
 4. CC-CEDICT dictionary with number tones and bullet points
 
-<https://github.com/anttipham/cc-cedict-for-yomichan/releases/latest>
+<https://github.com/lonlazer/cc-cedict-for-yomichan/releases/latest>
 
 ### Install
 
-1. You need to have [Yomichan](https://foosoft.net/projects/yomichan/).
+1. You need to have [Yomitan](https://github.com/themoeway/yomitan).
 2. Download the dictionary (zip file) from the Download section and don't unzip it.
 3. Yomichan > Settings > Dictionaries > Configure installed and enabled dictionaries... > Import.
 4. Choose the dictionary (zip file).
