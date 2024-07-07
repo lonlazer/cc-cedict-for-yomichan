@@ -20,6 +20,8 @@ jobs:
       run: wget https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.txt.gz
     - name: Unpack CC-CEDICT file
       run: gunzip cedict_1_0_ts_utf-8_mdbg.txt.gz
+    - name: Create output directory
+      run: mkdir release
     - name: Convert CC-CEDICT into Yomitan format
       run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/
     - name: Convert CC-CEDICT into Yomitan format (Bullets)
