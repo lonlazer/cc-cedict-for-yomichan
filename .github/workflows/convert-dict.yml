@@ -31,11 +31,12 @@ jobs:
       run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --pinyin-numbers
     - name: Convert CC-CEDICT into Yomitan format (Bullets + Numbered Pinyin)
       run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --separate --pinyin-numbers
-    - name: Create GitHub relase
-      uses: ncipollo/release-action@v1
+    - name: Create and Publish GitHub Release
+      uses: softprops/action-gh-release@v1
       with:
-        artifacts: "release/*.zip"
-        name: "${{ steps.conversion1.outputs.result }}"
-        commit: "main"
-        tag: "release"
-    
+        files: release/*
+        tag_name: ${{ steps.conversion.outputs.date }}
+        name:  ${{ steps.conversion.outputs.date }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        body: |
+          This is an automated release of CC-CEDICT as of ${{ steps.conversion.outputs.date }} in Yomitan format.
