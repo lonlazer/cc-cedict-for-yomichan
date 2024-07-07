@@ -21,11 +21,11 @@ jobs:
     - name: Unpack CC-CEDICT file
       run: gunzip cedict_1_0_ts_utf-8_mdbg.txt.gz
     - name: Convert CC-CEDICT into Yomitan format
-      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory /release
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/
     - name: Convert CC-CEDICT into Yomitan format (Bullets)
-      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory /release --separate
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --separate
     - name: Convert CC-CEDICT into Yomitan format (Numbered Pinyin)
-      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory /release --pinyin-numbers
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --pinyin-numbers
     - name: Convert CC-CEDICT into Yomitan format (Bullets + Numbered Pinyin)
-      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory /release --separate --pinyin-numbers
+      run: python main.py cedict_1_0_ts_utf-8_mdbg.txt --output-directory release/ --separate --pinyin-numbers
     
